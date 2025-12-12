@@ -33,11 +33,12 @@ export function ImageCard({ image, onDownload, onPreview }: ImageCardProps) {
           src={image.url}
           alt={image.styleName}
           className="w-full h-full object-cover"
+          loading="lazy"
         />
 
         {/* 悬浮遮罩 */}
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <p className="text-white text-sm font-medium">点击查看大图</p>
+          <p className="text-white text-sm font-medium px-3 py-1 bg-black/50 rounded">点击查看大图</p>
         </div>
       </div>
 

@@ -49,7 +49,7 @@ import type { HistoryItem as HistoryItemType, GeneratedImage } from '@/types';
 interface HistoryPanelProps {
   onDownload: (image: GeneratedImage) => void;
   onBatchDownload: (images: GeneratedImage[]) => void;
-  onRegenerate: (prompt: string, settings: HistoryItemType['settings']) => void;
+  onRegenerate: (prompt: string, settings: HistoryItemType['settings'], images: GeneratedImage[]) => void;
 }
 
 export function HistoryPanel({
@@ -280,7 +280,7 @@ export function HistoryPanel({
                   item={item}
                   onDownload={onDownload}
                   onBatchDownload={onBatchDownload}
-                  onRegenerate={onRegenerate}
+                  onRegenerate={(prompt, settings) => onRegenerate(prompt, settings, item.images)}
                   onDelete={handleDeleteItem}
                 />
               ))}
