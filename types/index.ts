@@ -17,7 +17,19 @@ export type StyleId =
   | 'cyberpunk'
   | 'chinese'
   | 'watercolor'
-  | 'photography';
+  | 'photography'
+  | 'gradient'
+  | 'neon'
+  | 'vintage'
+  | 'cartoon'
+  | 'anime'
+  | 'oil_painting'
+  | 'sketch'
+  | 'collage'
+  | 'paper_cut'
+  | 'pixel_art'
+  | 'isometric'
+  | 'surreal';
 
 // ========== 风格系统 ==========
 

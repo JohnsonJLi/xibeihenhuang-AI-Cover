@@ -1,4 +1,23 @@
+'use client';
+
+import { useState } from 'react';
+import { GeneratorForm } from '@/components/generator/GeneratorForm';
+import type { GenerateSettings } from '@/types';
+
 export default function Home() {
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleGenerate = async (settings: GenerateSettings) => {
+    console.log('开始生成:', settings);
+    setIsGenerating(true);
+
+    // TODO: 调用 API 生成图片
+    setTimeout(() => {
+      setIsGenerating(false);
+      console.log('生成完成');
+    }, 2000);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -13,58 +32,34 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="flex-1">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col items-center justify-center py-12">
-            <div className="text-center space-y-4">
+        <div className="container mx-auto px-4 py-6 max-w-4xl">
+          <div className="space-y-8">
+            {/* 标题区 */}
+            <div className="text-center space-y-2">
               <h2 className="text-3xl font-bold">
-                欢迎使用 AI 封面生成器
+                AI 封面生成器
               </h2>
-              <p className="text-muted-foreground max-w-2xl">
-                使用集梦 API 生成不同风格的 AI 封面图片。支持小红书、商业海报、极简风格等 8 种风格，
-                让您的内容更具吸引力。
+              <p className="text-muted-foreground">
+                使用集梦 API 生成不同风格的 AI 封面图片
               </p>
             </div>
 
-            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl">
-              <div className="p-6 border rounded-lg space-y-2">
-                <div className="text-3xl">📱</div>
-                <h3 className="font-semibold">小红书风格</h3>
-                <p className="text-sm text-muted-foreground">
-                  清新温暖，适合社交分享
-                </p>
-              </div>
-              <div className="p-6 border rounded-lg space-y-2">
-                <div className="text-3xl">💼</div>
-                <h3 className="font-semibold">商业海报</h3>
-                <p className="text-sm text-muted-foreground">
-                  专业高端，适合品牌宣传
-                </p>
-              </div>
-              <div className="p-6 border rounded-lg space-y-2">
-                <div className="text-3xl">⚪</div>
-                <h3 className="font-semibold">简约扁平</h3>
-                <p className="text-sm text-muted-foreground">
-                  现代简洁，适合科技产品
-                </p>
-              </div>
-              <div className="p-6 border rounded-lg space-y-2">
-                <div className="text-3xl">🎨</div>
-                <h3 className="font-semibold">更多风格</h3>
-                <p className="text-sm text-muted-foreground">
-                  手绘、赛博、国潮等多种选择
-                </p>
-              </div>
-            </div>
+            {/* 生成器表单 */}
+            <GeneratorForm
+              onGenerate={handleGenerate}
+              isGenerating={isGenerating}
+            />
 
-            <div className="mt-12 text-center text-sm text-muted-foreground">
-              <p>Phase 1 基础搭建已完成，功能开发中...</p>
+            {/* 生成结果将在这里显示 */}
+            <div id="results" className="min-h-[200px]">
+              {/* TODO: 添加生成结果展示组件 */}
             </div>
           </div>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="border-t bg-background">
+      <footer className="border-t bg-background mt-12">
         <div className="container flex h-16 items-center justify-between">
           <p className="text-sm text-muted-foreground">
             © 2025 西北很荒 AI封面生成器. 使用集梦API提供支持.
