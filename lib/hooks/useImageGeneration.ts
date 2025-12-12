@@ -10,6 +10,7 @@ import type {
   ApiError,
   ErrorCode,
 } from '@/types';
+import { historyStorage } from '@/lib/storage/history';
 
 interface UseImageGenerationReturn {
   status: GenerateStatus;
@@ -44,8 +45,16 @@ export function useImageGeneration(): UseImageGenerationReturn {
         throw new Error(data.error?.message || '生成失败');
       }
 
-      setImages(data.data.images);
+      const generatedImages = data.data.images;
+      setImages(generatedImages);
       setStatus('success');
+
+      // 保存到历史记录
+      try {
+        historyStorage.add(settings.prompt, settings, generatedImages);
+      } catch (saveError) {
+        console.error('保存历史记录失败:', saveError);
+      }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : '未知错误';
 

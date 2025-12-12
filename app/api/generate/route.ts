@@ -3,7 +3,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 import { getStyleById } from '@/lib/styles/templates';
-import type { GenerateRequest, GeneratedImage, ErrorCode } from '@/types';
+import type { GenerateRequest, GeneratedImage } from '@/types';
+import { ErrorCode } from '@/types';
 
 const JIMENG_API_KEY = process.env.JIMENG_API_KEY;
 const JIMENG_API_URL = process.env.JIMENG_API_URL;
@@ -118,7 +119,7 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           error: {
-            code: 'INVALID_PROMPT' as ErrorCode,
+            code: ErrorCode.INVALID_PROMPT,
             message: '提示词长度必须在5-200字符之间',
           },
         },
@@ -131,7 +132,7 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           error: {
-            code: 'INVALID_PROMPT' as ErrorCode,
+            code: ErrorCode.INVALID_PROMPT,
             message: '必须选择1-3个风格',
           },
         },
@@ -184,17 +185,17 @@ export async function POST(request: NextRequest) {
     console.error('生成图片错误:', error);
 
     const errorMessage = error instanceof Error ? error.message : '未知错误';
-    let errorCode: ErrorCode = 'API_ERROR';
+    let errorCode: ErrorCode = ErrorCode.API_ERROR;
 
     // 根据错误信息判断错误类型
     if (errorMessage.includes('配置缺失')) {
-      errorCode = 'API_ERROR';
+      errorCode = ErrorCode.API_ERROR;
     } else if (errorMessage.includes('限流') || errorMessage.includes('rate limit')) {
-      errorCode = 'RATE_LIMIT';
+      errorCode = ErrorCode.RATE_LIMIT;
     } else if (errorMessage.includes('违规') || errorMessage.includes('content')) {
-      errorCode = 'CONTENT_VIOLATION';
+      errorCode = ErrorCode.CONTENT_VIOLATION;
     } else if (errorMessage.includes('网络') || errorMessage.includes('network')) {
-      errorCode = 'NETWORK_ERROR';
+      errorCode = ErrorCode.NETWORK_ERROR;
     }
 
     return NextResponse.json(

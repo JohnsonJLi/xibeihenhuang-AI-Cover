@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { GeneratorForm } from '@/components/generator/GeneratorForm';
 import { GeneratedImages } from '@/components/result/GeneratedImages';
 import { ImagePreview } from '@/components/result/ImagePreview';
+import { HistoryPanel } from '@/components/history/HistoryPanel';
 import { useImageGeneration } from '@/lib/hooks/useImageGeneration';
+import { downloadImage, downloadImagesAsZip } from '@/lib/utils/download';
 import type { GenerateSettings, GeneratedImage } from '@/types';
 
 export default function Home() {
@@ -21,6 +23,31 @@ export default function Home() {
 
   const handleClosePreview = () => {
     setPreviewImage(null);
+  };
+
+  // 处理单张图片下载
+  const handleDownload = async (image: GeneratedImage) => {
+    try {
+      await downloadImage(image);
+    } catch (error) {
+      console.error('下载失败:', error);
+      alert('下载失败，请重试');
+    }
+  };
+
+  // 处理批量下载
+  const handleBatchDownload = async (images: GeneratedImage[]) => {
+    try {
+      await downloadImagesAsZip(images);
+    } catch (error) {
+      console.error('批量下载失败:', error);
+      alert('批量下载失败，请重试');
+    }
+  };
+
+  // 处理重新生成
+  const handleRegenerate = async (prompt: string, settings: GenerateSettings) => {
+    await generate(settings);
   };
 
   return (
@@ -83,8 +110,17 @@ export default function Home() {
                 images={images}
                 onReset={reset}
                 onPreview={handlePreview}
+                onDownload={handleDownload}
+                onBatchDownload={handleBatchDownload}
               />
             )}
+
+            {/* 历史记录面板 */}
+            <HistoryPanel
+              onDownload={handleDownload}
+              onBatchDownload={handleBatchDownload}
+              onRegenerate={handleRegenerate}
+            />
           </div>
         </div>
       </main>

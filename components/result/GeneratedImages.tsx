@@ -10,7 +10,7 @@ import type { GeneratedImage } from '@/types';
 interface GeneratedImagesProps {
   images: GeneratedImage[];
   onDownload?: (image: GeneratedImage) => void;
-  onDownloadAll?: () => void;
+  onBatchDownload?: (images: GeneratedImage[]) => void;
   onPreview?: (image: GeneratedImage) => void;
   onReset?: () => void;
 }
@@ -18,7 +18,7 @@ interface GeneratedImagesProps {
 export function GeneratedImages({
   images,
   onDownload,
-  onDownloadAll,
+  onBatchDownload,
   onPreview,
   onReset,
 }: GeneratedImagesProps) {
@@ -55,12 +55,12 @@ export function GeneratedImages({
       </div>
 
       {/* 批量下载按钮 */}
-      {onDownloadAll && images.length > 1 && (
+      {onBatchDownload && images.length > 1 && (
         <div className="flex justify-center pt-4">
           <Button
             variant="outline"
             size="lg"
-            onClick={onDownloadAll}
+            onClick={() => onBatchDownload(images)}
           >
             <Download className="w-4 h-4 mr-2" />
             全部打包下载 ({images.length}张)
