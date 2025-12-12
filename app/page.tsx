@@ -1,14 +1,26 @@
 'use client';
 
+import { useState } from 'react';
 import { GeneratorForm } from '@/components/generator/GeneratorForm';
+import { GeneratedImages } from '@/components/result/GeneratedImages';
+import { ImagePreview } from '@/components/result/ImagePreview';
 import { useImageGeneration } from '@/lib/hooks/useImageGeneration';
-import type { GenerateSettings } from '@/types';
+import type { GenerateSettings, GeneratedImage } from '@/types';
 
 export default function Home() {
   const { status, images, error, generate, reset } = useImageGeneration();
+  const [previewImage, setPreviewImage] = useState<GeneratedImage | null>(null);
 
   const handleGenerate = async (settings: GenerateSettings) => {
     await generate(settings);
+  };
+
+  const handlePreview = (image: GeneratedImage) => {
+    setPreviewImage(image);
+  };
+
+  const handleClosePreview = () => {
+    setPreviewImage(null);
   };
 
   return (
@@ -67,42 +79,11 @@ export default function Home() {
 
             {/* 成功结果 */}
             {status === 'success' && images && images.length > 0 && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-semibold">
-                    生成成功！共 {images.length} 张图片
-                  </h3>
-                  <button
-                    onClick={reset}
-                    className="text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    重新生成
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {images.map((image) => (
-                    <div
-                      key={image.id}
-                      className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
-                    >
-                      <div className="aspect-video bg-muted relative">
-                        <img
-                          src={image.url}
-                          alt={image.styleName}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="p-4">
-                        <div className="flex items-center gap-2">
-                          <span className="text-2xl">{image.styleIcon}</span>
-                          <span className="font-medium">{image.styleName}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <GeneratedImages
+                images={images}
+                onReset={reset}
+                onPreview={handlePreview}
+              />
             )}
           </div>
         </div>
@@ -116,6 +97,13 @@ export default function Home() {
           </p>
         </div>
       </footer>
+
+      {/* 图片预览弹窗 */}
+      <ImagePreview
+        image={previewImage}
+        open={!!previewImage}
+        onClose={handleClosePreview}
+      />
     </div>
   );
 }
