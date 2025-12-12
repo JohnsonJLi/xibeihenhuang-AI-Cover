@@ -66,7 +66,7 @@ export default function Home() {
           <div className="flex items-center gap-3">
             <span className="text-2xl">🎨</span>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">西北很荒 AI封面生成器</h1>
+              <h1 className="text-xl font-bold text-gray-900">西北很慌 AI封面生成器</h1>
               <p className="text-sm text-gray-600">使用集梦 API 生成专业级封面图片</p>
             </div>
           </div>

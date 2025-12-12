@@ -58,7 +58,7 @@ export function EditorPanel({ onGenerate, isGenerating }: EditorPanelProps) {
         {/* 底部信息 */}
         <div className="pt-6 border-t border-gray-200 text-center">
           <div className="text-xs text-gray-500 space-y-1">
-            <div>© 2025 西北很荒</div>
+            <div>© 2025 西北很慌</div>
             <div>由集梦 AI 提供技术支持</div>
           </div>
         </div>

@@ -6,7 +6,7 @@ export function Header() {
       <div className="container flex h-14 items-center">
         <div className="flex items-center gap-2">
           <span className="text-2xl">🎨</span>
-          <h1 className="text-xl font-bold">西北很荒 AI封面生成器</h1>
+          <h1 className="text-xl font-bold">西北很慌 AI封面生成器</h1>
         </div>
 
         <div className="ml-auto flex items-center gap-2">
